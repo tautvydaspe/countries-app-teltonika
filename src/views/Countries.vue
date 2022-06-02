@@ -54,7 +54,6 @@ export default {
         }
       }else{
         if(page<=this.countries.meta.last_page && page>=1){
-          console.log("AOSHIDIHASD")
         try {
         const response = await this.$http.get(
           "https://akademija.teltonika.lt/countries_api/api/countries?page=" + page

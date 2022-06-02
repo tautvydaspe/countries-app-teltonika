@@ -11,10 +11,6 @@
   </thead>
   <tbody >
     <tr v-for="country in countries.data" v-bind:key="country.id">
-      <!-- <td><router-link :to="{path: '/' + country.id}">{{country.attributes.name}}</router-link></td>
-      <td>{{country.attributes.area}}</td>
-      <td>{{country.attributes.population}}</td>
-      <td>{{country.attributes.phone_code}}</td> -->
       <td v-for="(element,index) in country.attributes" v-bind:key="element._id"><router-link v-if="index=='name' && isCountry==true" @click="$emit('newID',country.id)" :to="{path: '/' + country.id}">{{element}}</router-link><p v-else>{{element}}</p></td>
       <td v-if="isCountry"><button class="del-edit" @click="onEditClickCountry(country.id)"><img src="../assets/edit.png" alt="Edit"></button></td>
       <td v-else><button class="del-edit" @click="onEditClick(country.id,country.relationships.country.data.id)"><img src="../assets/edit.png" alt="Edit"></button></td>
@@ -76,13 +72,10 @@ export default {
 
   },
   onEditClickCountry(id){
-    console.log("AAAAAAAAAAA")
-    console.log("ZIWEK ID: ->  " + id)
     this.editCountry=true;
     this.editableCountryID=id;
   },
   onEditClick(cityid,countryid){
-    console.log("BBBBBBBBBBB")
     this.editCountry=true;
     this.editableCityID=cityid;
     this.editableCountryID=countryid;

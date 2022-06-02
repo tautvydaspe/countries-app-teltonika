@@ -51,7 +51,6 @@ export default {
             }
           }
         );
-        //let page=this.countries.meta.current_page
         this.onSubmitted()
       } catch (error) {
         console.log(error);
