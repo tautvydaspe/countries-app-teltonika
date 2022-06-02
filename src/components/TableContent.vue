@@ -1,7 +1,6 @@
 <template>
 
 <div>
-  <h3>{{action}}</h3>
   <router-view></router-view>
   <table class="table">
   <thead>
@@ -17,21 +16,10 @@
       <td v-if="isCountry"><button class="del-edit" @click="deleteCountry(country.id)"><img src="../assets/trash.png" alt="Delete"></button></td>
       <td v-else><button class="del-edit" @click="deleteCity(country.id,country.relationships.country.data.id)"><img src="../assets/trash.png" alt="Delete"></button></td>
     </tr> 
-
   </tbody>
-            
-            
-            
 </table>
 <modal :editableCountryID="editableCountryID" :editableCityID="editableCityID" :isCountry="isCountry" @edited="onEdited" @close="editCountry=false" v-show="editCountry" ></modal>
 </div>
-
-
-
- 
-    
-
-    
 </template>
 
 <script>
@@ -48,7 +36,6 @@ export default {
     return {
       search: '',
       editCountry: false,
-      action:'',
       editableCityID:0,
       editableCountryID:0
     }
@@ -59,15 +46,14 @@ export default {
         const response = await this.$http.delete(
           "https://akademija.teltonika.lt/countries_api/api/countries/" + id,{}
         );
-        this.$emit('updated');
-        this.action='Trinimas atliktas'
+        this.$emit('updated',"Įrašas sėkmingai ištrintas");
       } catch (error) {
         console.log(error);
-        this.action='Trinimas nepavyko'
+        this.$emit('updated',"Įrašo nepavyko ištrinti");
       }
   },
   onEdited(){
-    this.$emit('updated');
+    this.$emit('updated','Įrašas sėkmingai atnaujintas');
     this.editCountry=false;
 
   },
@@ -86,9 +72,10 @@ export default {
         const response = await this.$http.delete(
           "https://akademija.teltonika.lt/countries_api/api/countries/"+ countryID +"/cities/" + cityID,{}
         );
-        this.$emit('updated');
+        this.$emit('updated',"Įrašas sėkmingai ištrintas");
       } catch (error) {
         console.log(error);
+        this.$emit('updated',"Įrašo nepavyko ištrinti");
       }
     }
   }

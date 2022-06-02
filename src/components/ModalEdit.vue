@@ -3,12 +3,10 @@
         <div class="modal-mask">
           <div class="modal-wrapper" >
             <div class="modal-container" >
-
               <div class="modal-header">
                   Redagavimas
                   <button id="close-btn" @click="$emit('close')">x</button>
               </div>
-
               <div class="modal-body">
                 <form class="update-form"  @submit.prevent="updateCountry">
                     <input type="text" name="name" placeholder="Pavadinimas">

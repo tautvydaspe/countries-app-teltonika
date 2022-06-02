@@ -3,15 +3,12 @@
 
         <div id="list">
             <h1>MIESTAI</h1>
-            
             <button class="adding-btn" @click="addCountry=true">+</button>
+            <h3>{{action}}</h3>
             <AddingCity :isCountry="false" :countryid="countryID" @submitted="onSubmitted" @close="addCountry=false" v-show="addCountry"></AddingCity>
             <input class="search-input" type="text" v-model="search" @keydown="searchCities" placeholder="Paieška">
-        <TableContent :countries="this.cities" :tableHeader="this.tableHeader" :isCountry="false" @updated="getData(cities.meta.current_page)"></TableContent>
-
+        <TableContent :countries="this.cities" :tableHeader="this.tableHeader" :isCountry="false" @updated="onUpdated"></TableContent>
         </div>
-        
-        
         <PagingNav :countries="this.cities" @paged="getData"></PagingNav>
   </div>
 </template>
@@ -38,7 +35,8 @@ export default {
       addCountry:false,
       countryid:0,
       search:'',
-      tableHeader:['Miestas','Miesto kodas','Populiacija','Pašto kodas','Redaguoti','Trinti']
+      tableHeader:['Miestas','Miesto kodas','Populiacija','Pašto kodas','Redaguoti','Trinti'],
+      action:''
     }
   },
 
@@ -70,9 +68,15 @@ export default {
     },
    
    
-  onSubmitted(){
+  onSubmitted(action){
     this.getData(this.cities.meta.last_page)
     this.addCountry=false
+    this.action=action
+  },
+
+    onUpdated(action){
+    this.getData(this.cities.meta.current_page)
+    this.action=action
   },
 
   async searchCities () {

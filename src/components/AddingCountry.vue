@@ -1,9 +1,4 @@
 <template>
-
-
-
-
-
       <transition name="modal">
         <div class="modal-mask">
           <div class="modal-wrapper" >
@@ -54,6 +49,7 @@ export default {
         this.onSubmitted()
       } catch (error) {
         console.log(error);
+        this.$emit('submitted','Nepavyko sukurti naujo įrašo');
       }
      }else{
        try {
@@ -73,12 +69,13 @@ export default {
         this.onSubmitted()
       } catch (error) {
         console.log(error);
+          this.$emit('submitted','Nepavyko sukurti naujo įrašo');
       }
      }
       
   },
   onSubmitted() {
-      this.$emit('submitted');
+      this.$emit('submitted','Sėkmingai sukurtas įrašas.');
   }
     }
 }

@@ -3,13 +3,11 @@
         <div id="list">
             <h1>ŠALYS</h1>
             <button class="adding-btn" @click="addCountry=true">+</button>
+            <h3>{{action}}</h3>
             <AddingCountry :isCountry="true" @submitted="onSubmitted" @close="addCountry=false" v-show="addCountry"></AddingCountry>
             <input class="search-input" type="text" v-model="search" @keydown="searchCountries" placeholder="Paieška">
-              <TableContent :countries="this.countries" :tableHeader="this.tableHeader" :isCountry="true" @updated="getData(countries.meta.current_page)"></TableContent>
-
-
+              <TableContent :countries="this.countries" :tableHeader="this.tableHeader" :isCountry="true" @updated="onUpdated"></TableContent>
         </div>
-        
         <PagingNav :countries="this.countries" @paged="getData"></PagingNav>
   </div>
 </template>
@@ -36,7 +34,8 @@ export default {
       search: '',
       isFirstGet:true,
       showModal: false,
-      addCountry: false
+      addCountry: false,
+      action:''
     }
   },
 
@@ -70,9 +69,15 @@ export default {
       
     },
    
-  onSubmitted(){
+  onSubmitted(action){
     this.getData(this.countries.meta.last_page)
     this.addCountry=false
+    this.action=action
+  },
+
+  onUpdated(action){
+    this.getData(this.countries.meta.current_page)
+    this.action=action
   },
 
   async searchCountries () {

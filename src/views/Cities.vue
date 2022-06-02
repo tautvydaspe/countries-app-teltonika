@@ -2,9 +2,7 @@
   <div id="cities">
         <div id="list">
             <h1>MIESTAI</h1>
-            
             <div class="adding-form-wrap">
-
               <form class="adding-form" @submit.prevent="addCity">
             <h3>Įterpkite naują miestą:</h3>
             <input type="text" name="name" placeholder="Miesto pavadinimas">
@@ -14,14 +12,9 @@
             <input type="text" name="id" placeholder="Šalies ID">
             <button type="submit" id="submit-new">Įterpti</button>
         </form>
-
             </div>
-
         <TableContent :countries="this.cities" :tableHeader="this.tableHeader" :isCountry="false" @updated="getData(cities.meta.current_page)" ></TableContent>
-
         </div>
-        
-        
         <PagingNav :countries="this.cities" @paged="getData"></PagingNav>
   </div>
 </template>
