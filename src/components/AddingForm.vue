@@ -4,11 +4,12 @@
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
-            Redagavimas
+            Pridėjimas
             <button id="close-btn" @click="$emit('close')">x</button>
           </div>
+
           <div class="modal-body">
-            <form class="update-form" @submit.prevent="updateCountry">
+            <form class="adding-form" @submit.prevent="addCountry">
               <input type="text" name="name" placeholder="Pavadinimas" />
               <input type="text" name="area" placeholder="Area kodas" />
               <input type="text" name="population" placeholder="Populiacija" />
@@ -24,7 +25,7 @@
                 name="postal_code"
                 placeholder="Kodas"
               />
-              <button type="submit" id="update-btn">Redaguoti</button>
+              <button type="submit" id="submit-new">Įterpti</button>
             </form>
           </div>
         </div>
@@ -35,16 +36,14 @@
 
 <script>
 export default {
-  name: "modal",
-  props: ["editableCountryID", "editableCityID", "isCountry"],
+  name: "AddingForm",
+  props: ["isCountry", "countryid"],
   methods: {
-    async updateCountry(submitEvent) {
-      console.log(this.isCountry);
+    async addCountry(submitEvent) {
       if (this.isCountry) {
         try {
-          const response = await this.$http.put(
-            "https://akademija.teltonika.lt/countries_api/api/countries/" +
-              this.editableCountryID,
+          const response = await this.$http.post(
+            "https://akademija.teltonika.lt/countries_api/api/countries",
             {
               data: {
                 attributes: {
@@ -56,19 +55,17 @@ export default {
               }
             }
           );
-          this.onEdited();
-          this.action = "Redagavimas atliktas";
+          this.onSubmitted();
         } catch (error) {
           console.log(error);
-          this.action = "Redagavimas nepavyko";
+          this.$emit("submitted", "Nepavyko sukurti naujo įrašo");
         }
       } else {
         try {
-          const response = await this.$http.put(
+          const response = await this.$http.post(
             "https://akademija.teltonika.lt/countries_api/api/countries/" +
-              this.editableCountryID +
-              "/cities/" +
-              this.editableCityID,
+              this.countryid +
+              "/cities",
             {
               data: {
                 attributes: {
@@ -80,14 +77,15 @@ export default {
               }
             }
           );
-          this.onEdited();
+          this.onSubmitted();
         } catch (error) {
           console.log(error);
+          this.$emit("submitted", "Nepavyko sukurti naujo įrašo");
         }
       }
     },
-    onEdited() {
-      this.$emit("edited");
+    onSubmitted() {
+      this.$emit("submitted", "Sėkmingai sukurtas įrašas.");
     }
   }
 };
