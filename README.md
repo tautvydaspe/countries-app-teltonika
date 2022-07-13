@@ -1,4 +1,4 @@
-# miestai-salys
+# Countries app Teltonika
 
 > A Vue.js project
 
